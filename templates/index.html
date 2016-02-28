@@ -1,20 +1,96 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Socket.IO Chat Example</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<div id="amount_of_users"></div>
-<body>
-<div id="button_layout">
 
+<head>
+    <meta charset="UTF-8" />
+    <title>
+        Socket.IO Chat Example
+    </title>
+    <style type="text/css">
+    .X_button {
+        background-image: url(../images/X_button.png);
+        background-repeat: no-repeat;
+        border: none;
+    }
+
+    .A_button {
+        background-image: url(../images/A_button.png);
+        background-repeat: no-repeat;
+        border: none;
+    }
+
+    .B_button {
+        background-image: url(../images/B_button.png);
+        background-repeat: no-repeat;
+        border: none;
+    }
+
+    .Y_button {
+        background-image: url(../images/Y_button.png);
+        background-repeat: no-repeat;
+        border: none;
+    }
+
+    .D_pad {
+        background-image: url(../images/D_pad.png);
+        background-repeat: no-repeat;
+        border: none;
+    }
+    </style>
+</head>
+<div id="amount_of_users">
 </div>
 
-  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-  <script type="text/javascript">
+<body>
+    <div id="button_layout">
+    </div>
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js">
+    </script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js">
+    </script>
+    <script type="text/javascript">
+    var socket = io();
+    var gamemode = null,
+        input_type = null;
+    var username = null
 
-  </script>
+    function main() {
+        // create, initiate and append game canvas
+        username = window.prompt("Enter a username", "Username");
+        init(); // initiate game objects
+        //$(document).keydown(keyDown); //add keylisteners
+        //$(document).keyup(keyUp);
+        //draw();
+    }
+
+    function init() {
+        socket.emit('add user', username);
+    }
+    socket.on('test', function() {
+        console.log('test');
+    });
+    socket.on('initialize', function(data) {
+        gamemode = data.mode ? 'chaos' : 'democracy';
+        input_type = data.input_type;
+        switch (input_type): {
+            case ('gameboy'):
+                {
+                    break;
+                }
+            case ('wasd'):
+                {
+                    break;
+                }
+                default: {
+                    break;
+                }
+        }
+    });
+    window.beforeunload = function() {
+        if (username != null) socket.emit("disconnect", username);
+    }
+    main();
+    </script>
 </body>
+
 </html>
