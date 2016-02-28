@@ -1,6 +1,6 @@
 var socket = io();
 var gamemode = null,
-    layout = null;
+    input_type = null;
 
 function main() {
     // create, initiate and append game canvas
@@ -16,8 +16,8 @@ function init() {
 }
 socket.on('initialize', function(data){
     gamemode=data.mode;
-    layout = data.layout;
-    switch(layout):{
+    input_type = data.input_type;
+    switch(input_type):{
         case ('gameboy'):{
 
             break;
