@@ -1,6 +1,4 @@
-#X_button {
-    width: 30px;
-}
+
 
 .heading {
     color: blue;
@@ -106,4 +104,29 @@ body {
     left: 1px;
     border-color: #e5e5e5;
     cursor: pointer;
+}
+
+.A {
+    position:relative;
+    left:50%;
+    top:20%;
+
+}
+.B{
+    position:relative;
+    left:55%;
+
+}
+.DPad{
+    position:relative;
+    left:0%;
+    top:10%;
+}
+.X{
+    position:relative;
+    left:50%;
+}
+.Y{
+    position: relative;
+    left:50%
 }
