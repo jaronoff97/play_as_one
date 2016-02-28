@@ -23,9 +23,9 @@ function init() {
 }
 
 function fillNES() {
-    var x_button = $('<img id="A_button" src="/static/images/A_button.png"/>');
-    var y_button = $('<img id="A_button" src="/static/images/A_button.png"/>');
-    var d_pad = $('<div class="D_pad"><input type="button" value=""/></div>');
+    var a_button = $('<img id="A_button" src="/static/images/A_button.png"/>');
+    var b_button = $('<img id="B_button" src="/static/images/B_button.png"/>');
+    var d_pad = $('<img id="D_pad" src="/static/images/D_pad.png"/>');
     $("#button_layout").append(a_button);
     $("#button_layout").append(b_button);
     $("#button_layout").append(d_pad);
