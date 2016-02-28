@@ -116,19 +116,20 @@ def select_requirements_file():
     Print the path to a requirements file based on some os/arch condition.
     """
     if windows:
-        print('requirements/win.txt')
+        return('requirements/windows.txt')
     elif macosx:
-        print('requirements/mac.txt')
+        return('requirements/mac.txt')
     elif linux:
-        print('requirements/linux.txt')
+        return('requirements/linux.txt')
     elif cygwin:
-        print('requirements/cygwin.txt')
+        return('requirements/cygwin.txt')
     else:
         raise Exception('Unsupported OS/platform')
 
 
 def install():
-    call('pip', 'install', '-r', select_requirements_file())
+    print(select_requirements_file())
+    call(['pip install -r', select_requirements_file()])
 
 
 if __name__ == '__main__':
