@@ -7,6 +7,7 @@ from flask import Flask, request, flash, url_for, redirect, render_template, abo
 from flask.ext.socketio import SocketIO, emit
 from json import loads, dumps
 import threading
+import time
 import sys
 if sys.platform == 'win32':
     import win32gui
@@ -59,6 +60,8 @@ class PlayAsOne:
             window = window[0]
             hwnd = window[0]
 
+            win32gui.ShowWindow(hwnd, 11)
+            win32gui.ShowWindow(hwnd, 1)
             win32gui.SetForegroundWindow(hwnd)
             region = win32gui.GetWindowRect(hwnd)
             region = (
@@ -244,7 +247,7 @@ def execute_democracy():
     for user_input in democracy:
         if user_input[1] > most_votes[1]:
             most_votes = user_input
-    gui_server.execute_input(most_votes[0])
+    gui_server.send_key(most_votes[0])
 
 
 @socketio.on('on disconnect', namespace="/")
@@ -260,9 +263,9 @@ def handle_input(json):
     user_input = json["user_input"]
     print(user_input)
     #users[input['username']]['input_count'] += 1
-    if (gui_server.get_mode() == 'Chaos'):
+    if gui_server.get_mode() == 'Chaos':
         handle_chaos(user_input)
-    elif (gui_server.get_mode() == 'Democracy'):
+    elif gui_server.get_mode() == 'Democracy':
         handle_democracy(user_input)
 
 gui_server.gui.mainloop()
