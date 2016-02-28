@@ -11,10 +11,10 @@ class PlayAsOne:
 
     def __init__(self):
         self.gui = GUI(self)
+
         self.running = False
         self.window_active = False
         self.window_region = None
-        self.gui.mainloop()
 
     def start(self):
         self.running = True

@@ -5,6 +5,7 @@ from flask import Flask, request, flash, url_for, redirect, \
     render_template, abort, send_from_directory, jsonify
 from flask.ext.socketio import SocketIO, emit
 from json import loads, dumps
+import threading
 
 app = Flask(__name__)
 socketio = SocketIO(app, async_mode='eventlet')
@@ -33,7 +34,8 @@ def handle_add_user(username):
     user = username
     print user
     users[user] = {'input_count': 0}
-    emit("initialize", {'input_type': gui_server.get_input_mode()}, {'mode': mode})
+    emit("initialize", {
+         'input_type': gui_server.get_input_mode(), 'mode': mode})
 
 
 def handle_chaos(user_input):
@@ -74,6 +76,10 @@ def handle_input(json):
     elif (mode == 'democracy'):
         handle_democracy(user_input)
 
+
+def start_server():
+    threading.Thread(target=socketio.run, args=(app,)).start()
+
+
 if __name__ == '__main__':
     gui_server.gui.mainloop()
-    socketio.run(app)
