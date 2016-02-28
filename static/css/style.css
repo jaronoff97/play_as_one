@@ -108,26 +108,26 @@ body {
 
 .A {
     position:relative;
-    left:25%;
-    top:20%;
+    left:30%;
+
 
 }
 .B{
     position:relative;
-    left:27%;
-    top:20%;
+    left:35%;
+
 
 }
 .DPad{
     position:relative;
     left:0%;
-    top:20%;
+
 }
 .X{
     position:relative;
-    left:25%;
+    left:30%;
 }
 .Y{
     position: relative;
-    left:25%
+    left:35%
 }
