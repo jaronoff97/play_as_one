@@ -53,7 +53,7 @@ function fillNES() {
         if(forceY<0 && (Math.abs(forceY))>Math.abs(forceX)){
             command = "S";
         }
-        if(forceY>0 && fMath.abs(forceY)>fMath.abs(forceX)){
+        if(forceY>0 && Math.abs(forceY)>fMath.abs(forceX)){
             command="W";
         }
         console.log([offset,
