@@ -1,21 +1,22 @@
 #! usr/bin/env python2
 
-import pyautogui
-import Tkinter as tk
-import ttk
 from flask import Flask, request, flash, url_for, redirect, render_template, abort, send_from_directory, jsonify
 from flask.ext.socketio import SocketIO, emit
 from json import loads, dumps
+import Tkinter as tk
+import pyautogui
 import threading
+import ttk
 import time
 import sys
+
 if sys.platform == 'win32':
     import win32gui
 if sys.platform == 'darwin':
     pass
 
-class PlayAsOne:
 
+class PlayAsOne:
     def __init__(self):
         self.gui = GUI(self)
 
@@ -29,13 +30,26 @@ class PlayAsOne:
         self.gui.start_button.config(text='Stop', command=self.stop)
         self.gui.status_label.config(text='Running')
         self.gui.titlebar_entry.config(state='disabled')
+        self.gui.mode_combobox.config(state='disabled')
+        self.gui.input_mode_combobox.config(state='disabled')
+        self.gui.interval_entry.config(state='disabled')
+
         threading.Thread(target=socketio.run, args=(app,), kwargs={'host': '18.111.92.199', 'port':3000}).start()
+        threading.Thread(target=self.regulate_democracy).start()
 
     def stop(self):
         self.gui.start_button.config(text='Start', command=self.start)
         self.gui.status_label.config(text='Not Running')
         self.gui.titlebar_entry.config(state='normal')
+        self.gui.mode_combobox.config(state='normal')
+        self.gui.input_mode_combobox.config(state='normal')
+        self.gui.interval_entry.config(state='normal')
         self.running = False
+
+    def regulate_democracy(self):
+        while self.running:
+            execute_democracy()
+            time.sleep(self.get_democracy_interval())
 
     def is_running(self):
         return self.running
@@ -46,6 +60,9 @@ class PlayAsOne:
     def get_input_mode(self):
         return self.gui.input_mode_combobox.get()
 
+    def get_democracy_interval(self):
+        return int(self.gui.interval_entry.get())
+
     def find_game_window(self):
         if sys.platform == 'win32':
             winlist = []
@@ -54,7 +71,8 @@ class PlayAsOne:
                 winlist.append((hwnd, win32gui.GetWindowText(hwnd)))
             win32gui.EnumWindows(enum_cb, None)
 
-            window = [(hwnd, title) for hwnd, title in winlist if self.gui.titlebar_entry.get().lower() in title.lower()]
+            window = [
+                (hwnd, title) for hwnd, title in winlist if self.gui.titlebar_entry.get().lower() in title.lower()]
             if not window:
                 return False
             window = window[0]
@@ -121,6 +139,11 @@ class GUI(tk.Tk):
         self.titlebar_label.grid(row=2, column=0, sticky='w')
         self.titlebar_entry = ttk.Entry(self.mode_frame)
         self.titlebar_entry.grid(row=2, column=1, sticky='ew')
+
+        self.interval_label = tk.Label(self.mode_frame, text='Democracy Interval: ')
+        self.interval_label.grid(row=3, column=0, sticky='w')
+        self.interval_entry = ttk.Entry(self.mode_frame)
+        self.interval_entry.grid(row=3, column=1, sticky='ew')
 
         self.status_label = tk.Label(self, text='Not Running')
         self.status_label.grid(row=3, column=0, columnspan=2)
@@ -262,8 +285,10 @@ def handle_disconnect(json):
 def handle_input(json):
     user_input = json["user_input"]
     print(user_input)
-    #users[input['username']]['input_count'] += 1
-    if gui_server.get_mode() == 'Chaos':
+    if user_input not in users:
+        users[user_input] = {'input_count': 0}
+    users[user_input]['input_count'] += 1
+    if (gui_server.get_mode() == 'Chaos'):
         handle_chaos(user_input)
     elif gui_server.get_mode() == 'Democracy':
         handle_democracy(user_input)
