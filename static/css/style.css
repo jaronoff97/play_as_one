@@ -2,7 +2,11 @@
     background-image: url(../images/X_button.png);
     background-repeat: no-repeat;
     border: none;
-}.A_button {
+}
+#X_button {
+    width:30px;
+}
+.A_button {
     background-image: url(../images/A_button.png);
     background-repeat: no-repeat;
     border: none;
@@ -18,4 +22,6 @@
     background-image: url(../images/D_pad.png);
     background-repeat: no-repeat;
     border: none;
+} .heading {
+    color: blue;
 }
