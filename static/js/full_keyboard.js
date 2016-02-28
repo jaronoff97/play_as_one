@@ -49,6 +49,9 @@ $(function(){
             shift = false;
         }
 
+        socket.emit("sendInput", {
+            user_input: character
+        });
         // Add the character
         $write.html($write.html() + character);
     });
