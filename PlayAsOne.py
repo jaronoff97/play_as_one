@@ -12,13 +12,18 @@ class PlayAsOne:
         self.gui = GUI(self)
 
         self.running = False
+        self.window_active = False
+        self.window_region = None
 
         self.gui.mainloop()
 
     def start(self):
         self.running = True
+        self.gui.status_label.config(text='Running')
+        threading.Thread(target=self.monitor_game_window).start()
 
     def stop(self):
+        self.gui.status_label.config(text='Not Running')
         self.running = False
 
     def is_running(self):
@@ -30,35 +35,44 @@ class PlayAsOne:
     def get_input_mode(self):
         return self.gui.input_mode_combobox.get()
 
-    def find_game_window(self):
-        constant_position = pyautogui.locateOnScreen(self.gui.screenshot)
-        if not constant_position:
-            return False
-        return (
-            constant_position[0] - self.gui.screen_size[0],
-            constant_position[1] - self.gui.screen_size[1],
-            constant_position[0] + constant_position[2] + self.gui.screen_size[2],
-            constant_position[1] + constant_position[3] + self.gui.screen_size[3]
-        )
+    def monitor_game_window(self):
+        while self.running:
+            region = self.find_game_window()
+            if not region:
+                self.gui.stop()
+                self.window_active = False
+                self.window_region = None
+                self.gui.status_label.config(text='Lost the game window!')
+                break
+            self.window_active = True
+            self.window_region = region
 
-    def select_game_window(self):
-        position = self.find_game_window()
+            print(self.window_region)
+
+            time.sleep(1)
+
+    def find_game_window(self):
+        position = pyautogui.locateOnScreen(self.gui.selected_screenshot)
+        if not position:
+            position = pyautogui.locateOnScreen(self.gui.deselected_screenshot)
         if not position:
             return False
-        return True
+        self.send_mouse_click(*pyautogui.center(position), button='left')
+        return (
+            position[0] - self.gui.screen_size[0],
+            position[1] - self.gui.screen_size[1],
+            position[0] + position[2] + self.gui.screen_size[2],
+            position[1] + position[3] + self.gui.screen_size[3]
+        )
 
     def send_key(self, key):
         if not self.running:
             return
-        if not self.select_game_window():
-            pyautogui.alert(text='Could not find game window')
         pyautogui.press(key)
 
     def send_mouse_click(self, x, y, button):
         if not self.running:
             return
-        if not self.select_game_window():
-            pyautogui.alert(text='Could not find game window')
         pyautogui.click(x=x, y=y, button=button)
 
 
@@ -84,23 +98,27 @@ class GUI(tk.Tk):
         self.input_mode_combobox.set('Full Keyboard')
         self.input_mode_combobox.grid(row=0, column=1)
 
-        self.screenshot = None
+        self.deselected_screenshot = None
+        self.selected_screenshot = None
         self.screen_size = None
         self.screenshot_label = tk.Label(self, text='Screenshot Not Taken', font=('Helvetica', 15))
         self.screenshot_label.grid(row=2, column=0)
         self.screenshot_button = ttk.Button(self, text='Take Screenshot', command=self.take_screenshot)
         self.screenshot_button.grid(row=2, column=1)
 
+        self.status_label = tk.Label(self, text='Not Running')
+        self.status_label.grid(row=3, column=0)
+
         self.start_button = ttk.Button(self, text='Start', command=self.start)
-        self.start_button.grid(row=3, column=0, columnspan=2)
+        self.start_button.grid(row=4, column=0, columnspan=2)
 
         def s():
             print(self.server.find_game_window())
         self.k = ttk.Button(self, text='K', command=s)
-        self.k.grid(row=4, column=0)
+        self.k.grid(row=5, column=0)
 
     def start(self):
-        if self.screenshot is None:
+        if self.deselected_screenshot is None:
             pyautogui.alert(text='You need to set a constant screenshot.', title='Screenshot', button='OK')
             return
         self.start_button.config(text='Stop', command=self.stop)
@@ -134,6 +152,9 @@ class GUI(tk.Tk):
             region.extend(
                 (constant_bottom_right[0] - constant_top_left[0], constant_bottom_right[1] - constant_top_left[1])
             )
+            self.deselected_screenshot = pyautogui.screenshot(region=region)
+            pyautogui.click()
+            self.selected_screenshot = pyautogui.screenshot(region=region)
 
             for second in reversed(range(4)):
                 self.screenshot_label.config(text='Place mouse at the top left\nof the entire game window %s' % second)
@@ -153,7 +174,6 @@ class GUI(tk.Tk):
                 bottom_right[1] - constant_bottom_right[1]
             ]
 
-            self.screenshot = pyautogui.screenshot(region=region)
             self.screenshot_taken = True
             self.screenshot_label.config(text='Screenshot Taken')
             self.screenshot_button.config(state='normal', text='Retake Screenshot')
