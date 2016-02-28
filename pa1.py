@@ -73,8 +73,8 @@ def handle_democracy(user_input):
     democracy.append((user_input['input'], 1))
 
 def execute_democracy():
-    most_votes = ""
-    most_count = 0
-    for input in democracy:
-        if input > most_count:
-            most_votes = input
+    most_votes = ("",0)
+    for user_input in democracy:
+        if user_input[1] > most_votes[1]:
+            most_votes = user_input
+    execute_input(most_votes[0])
