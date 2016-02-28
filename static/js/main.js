@@ -67,8 +67,8 @@ function fillSNES() {
     fillNES();
     var x_button = $('<img id="X_button" class="X"  src="/static/images/X_button.png"/>');
     var y_button = $('<img id="Y_button" class="Y" src="/static/images/Y_button.png"/>');
-    $("#button_layout").append(x_button);
-    $("#button_layout").append(y_button);
+    $("#XY_layout").append(x_button);
+    $("#XY_layout").append(y_button);
 }
 function fillKeyboard(){
     $("#container").removeClass('hidden');
