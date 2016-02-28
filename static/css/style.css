@@ -126,8 +126,10 @@ body {
 .X{
     position: absolute;
     left:30%;
+    top:20%;
 }
 .Y{
     position: absolute;
     left:35%
+    top : 20%;
 }
