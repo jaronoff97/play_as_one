@@ -37,7 +37,6 @@ requirements directly::
 from __future__ import print_function
 
 import os
-from subprocess import call
 import platform
 import struct
 import sys
@@ -129,7 +128,7 @@ def select_requirements_file():
 
 def install():
     print(select_requirements_file())
-    os.system('pip install -r '+select_requirements_file())
+    os.system('pip install -r ' + select_requirements_file())
 
 
 if __name__ == '__main__':
