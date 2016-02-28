@@ -129,7 +129,7 @@ def select_requirements_file():
 
 def install():
     print(select_requirements_file())
-    call(['pip install -r', select_requirements_file()])
+    os.system('pip install -r '+select_requirements_file())
 
 
 if __name__ == '__main__':
