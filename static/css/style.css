@@ -1,27 +1,6 @@
-.X_button {
-    background-image: url(../images/X_button.png);
-    background-repeat: no-repeat;
-    border: none;
-}
 #X_button {
     width:30px;
 }
-.A_button {
-    background-image: url(../images/A_button.png);
-    background-repeat: no-repeat;
-    border: none;
-}.B_button {
-    background-image: url(../images/B_button.png);
-    background-repeat: no-repeat;
-    border: none;
-}.Y_button {
-    background-image: url(../images/Y_button.png);
-    background-repeat: no-repeat;
-    border: none;
-} .D_pad {
-    background-image: url(../images/D_pad.png);
-    background-repeat: no-repeat;
-    border: none;
-} .heading {
+.heading {
     color: blue;
 }
