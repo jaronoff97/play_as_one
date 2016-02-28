@@ -7,6 +7,7 @@ function main() {
     // create, initiate and append game canvas
     username = window.prompt("Enter a username", "Username");
     socket.emit('test')
+    console.log('sent test')
     init(); // initiate game objects
     //$(document).keydown(keyDown); //add keylisteners
     //$(document).keyup(keyUp);
