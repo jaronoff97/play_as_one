@@ -3,11 +3,6 @@ var socket = io.connect(socket_name);
 var gamemode = null,
     input_type = null;
 var username = null;
-$(document).ready(function() {
-    $("#X_button").click(function() {
-        socket.emit("sendInput", { user_input: "X" });
-    });
-});
 
 function main() {
     // create, initiate and append game canvas
@@ -29,6 +24,9 @@ function fillNES() {
     $("#button_layout").append(a_button);
     $("#button_layout").append(b_button);
     $("#button_layout").append(d_pad);
+    $("#X_button").click(function() {
+        socket.emit("sendInput", { user_input: "X" });
+    });
 }
 
 function fillSNES() {
