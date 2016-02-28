@@ -56,15 +56,6 @@ function fillNES() {
         if(forceY>0 && Math.abs(forceY)>Math.abs(forceX)){
             command="up";
         }
-        console.log([offset,
-            {"width":width},
-            {"height":height},
-            {"relativeX":relativeX},
-            {"relativeY":relativeY},
-            {"forceX":forceX},
-            {"forceY":forceY}
-        ]);
-        console.log(command);
         socket.emit("sendInput", {
             user_input: command
         });
