@@ -39,6 +39,7 @@ def handle_disconnect(json):
     users.pop(user['username'])
 
 
+
 @socketio.on("sendInput")
 def handle_input(json):
     input = loads(json)

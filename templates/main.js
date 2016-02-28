@@ -1,4 +1,7 @@
 var socket = io();
+var gamemode = null,
+    input_type = null;
+var username = null
 
 function main() {
     // create, initiate and append game canvas
@@ -11,9 +14,25 @@ function main() {
 
 function init() {
     socket.emit('add user', username);
-
 }
-window.beforeunload = function(){
-    socket.emit("disconnect", {});
+socket.on('initialize', function(data) {
+    gamemode = data.mode ? 'chaos' : 'democracy';
+    input_type = data.input_type;
+    switch (input_type): {
+        case ('gameboy'):
+            {
+                break;
+            }
+        case ('wasd'):
+            {
+                break;
+            }
+            default: {
+                break;
+            }
+    }
+});
+window.beforeunload = function() {
+    if (username != null) socket.emit("disconnect", username);
 }
 main();
