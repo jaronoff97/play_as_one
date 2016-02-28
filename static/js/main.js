@@ -41,17 +41,24 @@ function fillNES() {
         var height = $(this).height();
         var relativeX = (e.pageX - offset.left);
         var relativeY = -1 * (e.pageY - offset.top);
-        command="";
+        command = "";
         if (relativeX < width / 2) {
-            command="A";
+            command = "A";
         } else {
-            command="D";
+            command = "D";
         }
         if (relativeY < height / 2) {
-            command="S";
+            command = "S";
         } else {
-            command="W";
+            command = "W";
         }
+        console.log([offset,
+            width,
+            height,
+            relativeX,
+            relativeY
+        ]);
+        console.log(command);
         socket.emit("sendInput", {
             user_input: command
         });
