@@ -29,6 +29,10 @@ socket.on('initialize', function(data) {
             {
                 break;
             }
+        case ('Full Keyboard'):
+            {
+                break;
+            }
             default: {
                 break;
             }
