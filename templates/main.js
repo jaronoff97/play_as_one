@@ -14,25 +14,24 @@ function main() {
 function init() {
     socket.emit('add user', username);
 }
-socket.on('initialize', function(data){
-    gamemode=data.mode;
+socket.on('initialize', function(data) {
+    gamemode = data.mode;
     input_type = data.input_type;
-    switch(input_type):{
-        case ('gameboy'):{
-
-            break;
-        }
-        case ('wasd'):{
-
-            break;
-        }
-        default:{
-
-            break;
-        }
+    switch (input_type): {
+        case ('gameboy'):
+            {
+                break;
+            }
+        case ('wasd'):
+            {
+                break;
+            }
+            default: {
+                break;
+            }
     }
 });
-window.beforeunload = function(){
+window.beforeunload = function() {
     socket.emit("disconnect", {});
 }
 main();
