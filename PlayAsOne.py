@@ -50,11 +50,11 @@ class PlayAsOne:
 
     def find_game_window(self):
         if sys.platform == 'win32':
-            toplist, winlist = [], []
+            winlist = []
 
-            def enum_cb(hwnd, results):
+            def enum_cb(hwnd, extra):
                 winlist.append((hwnd, win32gui.GetWindowText(hwnd)))
-            win32gui.EnumWindows(enum_cb, toplist)
+            win32gui.EnumWindows(enum_cb, None)
 
             window = [(hwnd, title) for hwnd, title in winlist if self.gui.titlebar_entry.get().lower() in title.lower()]
             if not window:
