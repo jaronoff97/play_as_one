@@ -91,7 +91,7 @@ socket.on('initialize', function(data) {
             }
         case ('Full Keyboard'):
             {
-                fillSNES();
+                fillKeyboard();
                 break;
             }
         default:
