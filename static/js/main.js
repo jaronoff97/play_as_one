@@ -44,9 +44,10 @@ function fillNES() {
         var forceX = ((width/2)-relativeX);
         var forceY = ((height/2)-relativeY);
         var command = "";
-        if (relativeX < width / 2) {
+        if (forceX>0 && forceX>forceY) {
             command = "A";
-        } else {
+        }
+        if (forceX<0 && (-1*forceX)>forceY) {
             command = "D";
         }
         if (relativeY < height / 2) {
