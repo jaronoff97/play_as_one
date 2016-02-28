@@ -1,20 +1,22 @@
 #! usr/bin/env python2
 
-import pyautogui
-import Tkinter as tk
-import ttk
 from flask import Flask, request, flash, url_for, redirect, render_template, abort, send_from_directory, jsonify
 from flask.ext.socketio import SocketIO, emit
 from json import loads, dumps
+import Tkinter as tk
+import pyautogui
 import threading
+import ttk
+import time
 import sys
+
 if sys.platform == 'win32':
     import win32gui
 if sys.platform == 'darwin':
     pass
 
-class PlayAsOne:
 
+class PlayAsOne:
     def __init__(self):
         self.gui = GUI(self)
 
@@ -56,7 +58,8 @@ class PlayAsOne:
                 winlist.append((hwnd, win32gui.GetWindowText(hwnd)))
             win32gui.EnumWindows(enum_cb, None)
 
-            window = [(hwnd, title) for hwnd, title in winlist if self.gui.titlebar_entry.get().lower() in title.lower()]
+            window = [
+                (hwnd, title) for hwnd, title in winlist if self.gui.titlebar_entry.get().lower() in title.lower()]
             if not window:
                 return False
             window = window[0]
@@ -267,7 +270,9 @@ def handle_disconnect(json):
 def handle_input(json):
     user_input = json["user_input"]
     print(user_input)
-    #users[input['username']]['input_count'] += 1
+    if user_input not in users:
+        users[user_input] = {'input_count': 0}
+    users[user_input]['input_count'] += 1
     if (gui_server.get_mode() == 'Chaos'):
         handle_chaos(user_input)
     elif (gui_server.get_mode() == 'Democracy'):
