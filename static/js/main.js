@@ -34,7 +34,7 @@ function fillNES() {
 function fillSNES() {
     fillNES();
     var x_button = $('<img id="X_button" src="/static/images/X_button.png"/>');
-    var y_button = $('<div class="Y_button"><input type="button" value=""/></div>');
+    var y_button = $('<img id="Y_button" src="/static/images/Y_button.png"/>');
     $("#button_layout").append(x_button);
     $("#button_layout").append(y_button);
 
