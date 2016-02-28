@@ -1,6 +1,7 @@
 var socket = io();
 var gamemode = null,
     input_type = null;
+var username = null
 
 function main() {
     // create, initiate and append game canvas
