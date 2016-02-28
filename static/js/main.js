@@ -41,18 +41,16 @@ function fillNES() {
         var height = $(this).height();
         var relativeX = (e.pageX - offset.left);
         var relativeY = (e.pageY - offset.top);
-        var force = 0;
+        var forceX = relativeX < width / 2 ? ((width/2)-relativeX) : ((width/2)+relativeX);
+        var forceY = relativeY < height / 2 ? ((height/2)-relativeY) : ((height/2)+relativeY);
         var command = "";
         if (relativeX < width / 2) {
             command = "A";
-            force=((width/2)-relativeX);
         } else {
             command = "D";
-            force=((width/2)+relativeX);
         }
         if (relativeY < height / 2) {
             command = "S";
-            force=((width/2)-relativeX);
         } else {
             command = "W";
         }
@@ -60,7 +58,9 @@ function fillNES() {
             {"width":width},
             {"height":height},
             {"relativeX":relativeX},
-            {"relativeY":relativeY}
+            {"relativeY":relativeY},
+            {"forceX":forceX},
+            {"forceY":forceY}
         ]);
         console.log(command);
         socket.emit("sendInput", {
