@@ -41,8 +41,8 @@ function fillNES() {
         var height = $(this).height();
         var relativeX = (e.pageX - offset.left);
         var relativeY = (e.pageY - offset.top);
-        var forceX = relativeX < width / 2 ? ((width/2)-relativeX) : ((width/2)+relativeX);
-        var forceY = relativeY < height / 2 ? ((height/2)-relativeY) : ((height/2)+relativeY);
+        var forceX = ((width/2)-relativeX);
+        var forceY = ((height/2)-relativeY);
         var command = "";
         if (relativeX < width / 2) {
             command = "A";
