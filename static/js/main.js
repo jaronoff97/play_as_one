@@ -25,7 +25,7 @@ socket.on('initialize', function(data) {
             {
                 break;
             }
-        case ('wasd'):
+        case ('SNES'):
             {
                 break;
             }
