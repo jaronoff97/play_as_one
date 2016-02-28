@@ -24,7 +24,7 @@ function fillNES() {
     $("#button_layout").append(a_button);
     $("#button_layout").append(b_button);
     $("#button_layout").append(d_pad);
-    $("#X_button").click(function() {
+    $("#A_button").click(function() {
         socket.emit("sendInput", { user_input: "X" });
     });
 }
