@@ -21,6 +21,7 @@ if __name__ == "__main__":
 def handle_add_user(json):
 
 
+
 @socketio.on("sendInput")
 def handle_input(json):
     if(is_chaos):
