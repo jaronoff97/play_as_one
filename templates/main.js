@@ -15,6 +15,9 @@ function main() {
 function init() {
     socket.emit('add user', username);
 }
+socket.on('test', function(){
+    console.log('test');
+});
 socket.on('initialize', function(data) {
     gamemode = data.mode ? 'chaos' : 'democracy';
     input_type = data.input_type;
