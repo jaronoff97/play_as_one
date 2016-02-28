@@ -20,8 +20,12 @@ function fillNES(){
     var a_button= $('<input class="A_button" type="button" value="new button"/>');
     var b_button= $('<input class="B_button" type="button" value="new button"/>');
     var d_pad= $('<input class="D_pad" type="button" value="new button"/>');
-
     $("#button_layout").append(a_button);
+    $("#button_layout").append(b_button);
+    $("#button_layout").append(d_pad);
+}
+function fillSNES(){
+
 }
 socket.on('initialize', function(data) {
     console.log(data);
@@ -30,6 +34,7 @@ socket.on('initialize', function(data) {
     switch (input_type) {
         case ('NES'):
             {
+                fillNES();
                 break;
             }
         case ('SNES'):
