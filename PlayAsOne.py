@@ -3,8 +3,7 @@
 import pyautogui
 import Tkinter as tk
 import ttk
-from flask import Flask, request, flash, url_for, redirect, \
-    render_template, abort, send_from_directory, jsonify
+from flask import Flask, request, flash, url_for, redirect, render_template, abort, send_from_directory, jsonify
 from flask.ext.socketio import SocketIO, emit
 from json import loads, dumps
 import threading
@@ -21,9 +20,6 @@ class PlayAsOne:
 
         self.running = False
 
-        threading.Thread(target=socketio.run, args=(app,)).start()
-        self.gui.mainloop()
-
     def start(self):
         if not self.find_game_window():
             self.gui.status_label.config(text='Could not locate the window!')
@@ -32,6 +28,7 @@ class PlayAsOne:
         self.gui.start_button.config(text='Stop', command=self.stop)
         self.gui.status_label.config(text='Running')
         self.gui.titlebar_entry.config(state='disabled')
+        threading.Thread(target=socketio.run, args=(app,)).start()
 
     def stop(self):
         self.gui.start_button.config(text='Start', command=self.start)
@@ -200,6 +197,7 @@ class GUI(tk.Tk):
 
 app = Flask(__name__)
 socketio = SocketIO(app, async_mode='eventlet')
+gui_server = PlayAsOne()
 user_count = 0
 users = {}
 democracy = []
@@ -219,6 +217,7 @@ def test_connect():
 @socketio.on("add user", namespace="/")
 def handle_add_user(username):
     global user_count
+    global gui_server
     user_count += 1
     user = username
     print user
@@ -228,7 +227,7 @@ def handle_add_user(username):
 
 
 def handle_chaos(user_input):
-    gui_server.execute_input(user_input)
+    gui_server.send_key(user_input)
 
 
 def handle_democracy(user_input):
@@ -258,12 +257,12 @@ def handle_disconnect(json):
 
 @socketio.on("sendInput", namespace="/")
 def handle_input(json):
-    user_input = loads(json)
-    users[input['username']]['input_count'] += 1
+    user_input = json["user_input"]
+    print(user_input)
+    #users[input['username']]['input_count'] += 1
     if (gui_server.get_mode() == 'Chaos'):
         handle_chaos(user_input)
     elif (gui_server.get_mode() == 'Democracy'):
         handle_democracy(user_input)
 
-if __name__ == '__main__':
-    gui_server = PlayAsOne()
+gui_server.gui.mainloop()
