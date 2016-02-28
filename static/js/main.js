@@ -16,6 +16,10 @@ function main() {
 function init() {
     socket.emit('add user', username);
 }
+function fillNES(){
+    var r= $('<input type="button" value="new button"/>');
+    $("#button_layout").append(r);
+}
 socket.on('initialize', function(data) {
     console.log(data);
     gamemode = data.mode ? 'chaos' : 'democracy';
