@@ -45,6 +45,9 @@ class PlayAsOne:
     def get_input_mode(self):
         return self.gui.input_mode_combobox.get()
 
+    def get_democracy_interval(self):
+        return int(self.gui.interval_entry.get())
+
     def find_game_window(self):
         if sys.platform == 'win32':
             winlist = []
@@ -118,6 +121,11 @@ class GUI(tk.Tk):
         self.titlebar_label.grid(row=2, column=0, sticky='w')
         self.titlebar_entry = ttk.Entry(self.mode_frame)
         self.titlebar_entry.grid(row=2, column=1, sticky='ew')
+
+        self.interval_label = tk.Label(self.mode_frame, text='Democracy Interval: ')
+        self.interval_label.grid(row=3, column=0, sticky='w')
+        self.interval_entry = ttk.Entry(self.mode_frame)
+        self.interval_entry.grid(row=3, column=1, sticky='ew')
 
         self.status_label = tk.Label(self, text='Not Running')
         self.status_label.grid(row=3, column=0, columnspan=2)
@@ -244,7 +252,7 @@ def execute_democracy():
     for user_input in democracy:
         if user_input[1] > most_votes[1]:
             most_votes = user_input
-    gui_server.execute_input(most_votes[0])
+    gui_server.send_key(most_votes[0])
 
 
 @socketio.on('on disconnect', namespace="/")
