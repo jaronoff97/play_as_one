@@ -1,5 +1,4 @@
 var socket_name = 'http://' + document.domain + ':' + location.port;
-console.log(socket_name);
 var socket = io.connect(socket_name);
 var gamemode = null,
     input_type = null;
@@ -16,7 +15,6 @@ function main() {
 
 function init() {
     socket.emit('add user', username);
-    console.log('sent add user');
 }
 socket.on('initialize', function(data) {
     gamemode = data.mode ? 'chaos' : 'democracy';
