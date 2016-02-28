@@ -1,4 +1,6 @@
 var socket = io();
+var gamemode = null,
+    layout = null;
 
 function main() {
     // create, initiate and append game canvas
@@ -11,8 +13,10 @@ function main() {
 
 function init() {
     socket.emit('add user', username);
-
 }
+socket.on('initialize', function(data){
+
+});
 window.beforeunload = function(){
     socket.emit("disconnect", {});
 }
