@@ -8,7 +8,7 @@ function main() {
     // create, initiate and append game canvas
     username = window.prompt("Enter a username", "Username");
     init(); // initiate game objects
-    $("#container").hidden=True;
+    $("#container").hide();
     //$(document).keydown(keyDown); //add keylisteners
     //$(document).keyup(keyUp);
     //draw();
