@@ -15,7 +15,22 @@ function init() {
     socket.emit('add user', username);
 }
 socket.on('initialize', function(data){
+    gamemode=data.mode;
+    layout = data.layout;
+    switch(layout):{
+        case ('gameboy'):{
 
+            break;
+        }
+        case ():{
+
+            break;
+        }
+        default:{
+
+            break;
+        }
+    }
 });
 window.beforeunload = function(){
     socket.emit("disconnect", {});
