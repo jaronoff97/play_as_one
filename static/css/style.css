@@ -19,7 +19,7 @@ body {
 }
 
 #container {
-
+    margin: 100px auto;
     width: 688px;
 }
 
@@ -107,27 +107,27 @@ body {
 }
 
 .A {
-    position:relative;
+    position:absolute;
     left:30%;
 
 
 }
 .B{
-    position:relative;
+    position:absolute;
     left:35%;
 
 
 }
 .DPad{
-    position:relative;
+    position:absolute;
     left:0%;
 
 }
 .X{
-    position:relative;
+    position: absolute;
     left:30%;
 }
 .Y{
-    position: relative;
+    position: absolute;
     left:35%
 }
