@@ -1,13 +1,12 @@
 var socket_name = 'http://' + document.domain + ':' + location.port;
 console.log(socket_name);
-var socket = null;
+var socket = io.connect(socket_name);
 var gamemode = null,
     input_type = null;
 var username = null
 
 function main() {
     // create, initiate and append game canvas
-    socket= io.connect(socket_name);
     username = window.prompt("Enter a username", "Username");
     init(); // initiate game objects
     //$(document).keydown(keyDown); //add keylisteners
