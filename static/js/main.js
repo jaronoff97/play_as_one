@@ -8,6 +8,7 @@ function main() {
     // create, initiate and append game canvas
     username = window.prompt("Enter a username", "Username");
     init(); // initiate game objects
+    $("#container").hide();
     //$(document).keydown(keyDown); //add keylisteners
     //$(document).keyup(keyUp);
     //draw();
@@ -69,6 +70,9 @@ function fillSNES() {
     $("#button_layout").append(x_button);
     $("#button_layout").append(y_button);
 }
+function fillKeyboard(){
+    $("#container").removeClass('hidden');
+}
 socket.on('initialize', function(data) {
     console.log(data);
     gamemode = data.mode ? 'chaos' : 'democracy';
@@ -87,7 +91,7 @@ socket.on('initialize', function(data) {
             }
         case ('Full Keyboard'):
             {
-                fillSNES();
+                fillKeyboard();
                 break;
             }
         default:
