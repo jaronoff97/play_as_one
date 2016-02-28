@@ -17,8 +17,8 @@ function init() {
     socket.emit('add user', username);
 }
 function fillNES(){
-    var r= $('<input class="A_button" type="button" value="new button"/>');
-    $("#button_layout").append(r);
+    var a_button= $('<input class="A_button" type="button" value="new button"/>');
+    $("#button_layout").append(a_button);
 }
 socket.on('initialize', function(data) {
     console.log(data);
