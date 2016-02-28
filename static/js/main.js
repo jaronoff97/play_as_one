@@ -71,7 +71,7 @@ function fillSNES() {
     $("#button_layout").append(y_button);
 }
 function fillKeyboard(){
-    $("#container").show();
+    $("#container").removeClass('hidden');
 }
 socket.on('initialize', function(data) {
     console.log(data);
