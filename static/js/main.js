@@ -47,13 +47,13 @@ function fillNES() {
         if (forceX>0 && forceX>forceY) {
             command = "A";
         }
-        else if (forceX<0 && (-1*forceX)>forceY) {
+        if (forceX<0 && (-1*forceX)>forceY) {
             command = "D";
         }
-        else if(forceY<0 && (-1*forceY)>forceX){
+        if(forceY<0 && (-1*forceY)>forceX){
             command = "S";
         }
-        else if(forceY>0 && forceY>forceX){
+        if(forceY>0 && forceY>forceX){
             command="W";
         }
         console.log([offset,
