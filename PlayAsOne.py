@@ -30,13 +30,27 @@ class PlayAsOne:
         self.gui.start_button.config(text='Stop', command=self.stop)
         self.gui.status_label.config(text='Running')
         self.gui.titlebar_entry.config(state='disabled')
+        self.gui.mode_combobox.config(state='disabled')
+        self.gui.input_mode_combobox.config(state='disabled')
+        self.gui.interval_entry.config(state='disabled')
+
+        threading.Thread(target=self.regulate_democracy).start()
+
         threading.Thread(target=socketio.run, args=(app,)).start()
 
     def stop(self):
         self.gui.start_button.config(text='Start', command=self.start)
         self.gui.status_label.config(text='Not Running')
         self.gui.titlebar_entry.config(state='normal')
+        self.gui.mode_combobox.config(state='normal')
+        self.gui.input_mode_combobox.config(state='normal')
+        self.gui.interval_entry.config(state='normal')
         self.running = False
+
+    def regulate_democracy(self):
+        while self.running:
+            execute_democracy()
+            time.sleep(self.get_democracy_interval())
 
     def is_running(self):
         return self.running
