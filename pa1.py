@@ -14,7 +14,8 @@ democracy = []
 
 @app.route("/")
 def hello():
-    render_template('index.html')
+    print("User entered")
+    return render_template('index.html')
 
 
 if __name__ == "__main__":
@@ -24,6 +25,7 @@ if __name__ == "__main__":
 
 @socketio.on('test')
 def handle_test():
+    print('test')
     emit('test')
 
 

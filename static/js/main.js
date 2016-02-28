@@ -1,4 +1,6 @@
-var socket = io();
+var socket_name = 'http://' + document.domain + ':' + location.port;
+console.log(socket_name);
+var socket = io.connect(socket_name);
 var gamemode = null,
     input_type = null;
 var username = null
@@ -6,8 +8,6 @@ var username = null
 function main() {
     // create, initiate and append game canvas
     username = window.prompt("Enter a username", "Username");
-    socket.emit('test')
-    console.log('sent test')
     init(); // initiate game objects
     //$(document).keydown(keyDown); //add keylisteners
     //$(document).keyup(keyUp);
@@ -16,10 +16,8 @@ function main() {
 
 function init() {
     socket.emit('add user', username);
+    console.log('sent add user');
 }
-socket.on('test', function(){
-    console.log('test');
-});
 socket.on('initialize', function(data) {
     gamemode = data.mode ? 'chaos' : 'democracy';
     input_type = data.input_type;
