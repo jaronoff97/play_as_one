@@ -38,6 +38,7 @@ function fillNES() {
         var offset = $(this).offset();
         var dx = (e.pageX - offset.left);
         var dy = (e.pageY - offset.top);
+        alert(dx+" "+dy);
         socket.emit("sendInput", {
             user_input: "X"
         });
