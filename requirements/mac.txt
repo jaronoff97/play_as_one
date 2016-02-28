@@ -10,6 +10,7 @@ MarkupSafe==0.23
 modulegraph==0.12.1
 Pillow==3.1.1
 py2app==0.9
+pyautogui==0.9.33
 pyobjc==3.0.4
 pyobjc-core==3.0.4
 pyobjc-framework-Accounts==3.0.4

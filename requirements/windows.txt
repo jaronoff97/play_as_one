@@ -7,6 +7,7 @@ macholib==1.7
 MarkupSafe==0.23
 modulegraph==0.12.1
 Pillow==3.1.1
+pyautogui==0.9.33
 python-engineio==0.8.8
 python-socketio==1.0
 six==1.10.0
