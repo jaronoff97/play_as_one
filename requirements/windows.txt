@@ -1,0 +1,14 @@
+altgraph==0.12
+Flask==0.10.1
+Flask-SocketIO==2.1
+itsdangerous==0.24
+Jinja2==2.8
+macholib==1.7
+MarkupSafe==0.23
+modulegraph==0.12.1
+Pillow==3.1.1
+python-engineio==0.8.8
+python-socketio==1.0
+six==1.10.0
+Werkzeug==0.11.4
+wheel==0.26.0
