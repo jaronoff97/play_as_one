@@ -1,11 +1,12 @@
 from flask import Flask, request, flash, url_for, redirect, \
     render_template, abort, send_from_directory, jsonify
-
-app = Flask(__name__)
-from flask_socketio import SocketIO, emit
+from flask.ext.socketio import SocketIO, emit
 from json import loads, dumps
 
-socketio = SocketIO(app)
+
+app = Flask(__name__)
+
+socketio = SocketIO(app, async_mode='eventlet')
 mode = get_mode()
 user_count = 0
 users = {}
@@ -18,31 +19,22 @@ def hello():
     return render_template('index.html')
 
 
-if __name__ == "__main__":
-    app.run()
-    socketio.run(app)
+@socketio.on('connect', namespace="/")
+def test_connect():
+    print('test ran')
 
 
-@socketio.on('test')
-def handle_test():
-    print('test')
-    emit('test')
-
-
-@socketio.on('initialize')
-def handle_initialize():
+@socketio.on("add user", namespace="/")
+def handle_add_user(username):
+    global user_count
+    user_count += 1
+    user = username
+    print user
+    users[user] = {'input_count': 0}
     emit("initialize", {'input_type': get_input_mode()}, {'mode': mode})
 
 
-@socketio.on("add user")
-def handle_add_user(json):
-    global user_count
-    user_count += 1
-    user = loads(json)
-    users[user['username']] = {'input_count': 0}
-
-
-@socketio.on('on disconnect')
+@socketio.on('on disconnect', namespace="/")
 def handle_disconnect(json):
     global user_count
     user_count -= 1
@@ -50,7 +42,7 @@ def handle_disconnect(json):
     users.pop(user['username'])
 
 
-@socketio.on("sendInput")
+@socketio.on("sendInput", namespace="/")
 def handle_input(json):
     user_input = loads(json)
     users[input['username']]['input_count'] += 1
@@ -68,9 +60,10 @@ def handle_democracy(user_input):
     global democracy
     for demo_input in democracy:
         if demo_input[0] == user_input['input']:
-            demo_input[1] +=1
+            demo_input[1] += 1
             break
     democracy.append((user_input['input'], 1))
+
 
 def execute_democracy():
     most_votes = ""
@@ -78,3 +71,6 @@ def execute_democracy():
     for input in democracy:
         if input > most_count:
             most_votes = input
+
+if __name__ == "__main__":
+    socketio.run(app)

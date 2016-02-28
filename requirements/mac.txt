@@ -1,6 +1,8 @@
 altgraph==0.12
+eventlet==0.18.4
 Flask==0.10.1
 Flask-SocketIO==2.1
+greenlet==0.4.9
 itsdangerous==0.24
 Jinja2==2.8
 macholib==1.7
