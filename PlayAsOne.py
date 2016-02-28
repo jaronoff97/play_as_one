@@ -8,13 +8,12 @@ import ttk
 
 
 class PlayAsOne:
+
     def __init__(self):
         self.gui = GUI(self)
-
         self.running = False
         self.window_active = False
         self.window_region = None
-
         self.gui.mainloop()
 
     def start(self):
@@ -85,6 +84,7 @@ class PlayAsOne:
 
 
 class GUI(tk.Tk):
+
     def __init__(self, server):
         tk.Tk.__init__(self)
         self.server = server
@@ -94,7 +94,8 @@ class GUI(tk.Tk):
 
         self.mode_label = tk.Label(self.mode_frame, text='Mode: ')
         self.mode_label.grid(row=0, column=0, sticky='w')
-        self.mode_combobox = ttk.Combobox(self.mode_frame, state='readonly', width=9, values=('Chaos', 'Democracy'))
+        self.mode_combobox = ttk.Combobox(
+            self.mode_frame, state='readonly', width=9, values=('Chaos', 'Democracy'))
         self.mode_combobox.set('Chaos')
         self.mode_combobox.grid(row=0, column=1, sticky='ew')
 
@@ -108,9 +109,11 @@ class GUI(tk.Tk):
         self.deselected_screenshot = None
         self.selected_screenshot = None
         self.screen_size = None
-        self.screenshot_label = tk.Label(self, text='Screenshot Not Taken', font=('Helvetica', 15))
+        self.screenshot_label = tk.Label(
+            self, text='Screenshot Not Taken', font=('Helvetica', 15))
         self.screenshot_label.grid(row=2, column=0)
-        self.screenshot_button = ttk.Button(self, text='Take Screenshot', command=self.take_screenshot)
+        self.screenshot_button = ttk.Button(
+            self, text='Take Screenshot', command=self.take_screenshot)
         self.screenshot_button.grid(row=2, column=1)
 
         self.status_label = tk.Label(self, text='Not Running')
@@ -121,7 +124,8 @@ class GUI(tk.Tk):
 
     def start(self):
         if self.deselected_screenshot is None:
-            pyautogui.alert(text='You need to set a constant screenshot.', title='Screenshot', button='OK')
+            pyautogui.alert(
+                text='You need to set a constant screenshot.', title='Screenshot', button='OK')
             return
         self.start_button.config(text='Stop', command=self.stop)
         self.server.start()
@@ -135,36 +139,42 @@ class GUI(tk.Tk):
             self.screenshot_button.config(state='disabled')
 
             for second in reversed(range(4)):
-                self.screenshot_label.config(text='Deselect the game window %s' % second)
+                self.screenshot_label.config(
+                    text='Deselect the game window %s' % second)
                 if second != 0:
                     time.sleep(1)
 
             region = []
             for second in reversed(range(4)):
-                self.screenshot_label.config(text='Place the mouse at the top left\nof the game\'s title bar %s' % second)
+                self.screenshot_label.config(
+                    text='Place the mouse at the top left\nof the game\'s title bar %s' % second)
                 if second != 0:
                     time.sleep(1)
             constant_top_left = pyautogui.position()
             region.extend(constant_top_left)
             for second in reversed(range(4)):
-                self.screenshot_label.config(text='Place the mouse at the bottom right\nof the game\'s title bar %s' % second)
+                self.screenshot_label.config(
+                    text='Place the mouse at the bottom right\nof the game\'s title bar %s' % second)
                 if second != 0:
                     time.sleep(1)
             constant_bottom_right = pyautogui.position()
             region.extend(
-                (constant_bottom_right[0] - constant_top_left[0], constant_bottom_right[1] - constant_top_left[1])
+                (constant_bottom_right[0] - constant_top_left[0],
+                 constant_bottom_right[1] - constant_top_left[1])
             )
             self.deselected_screenshot = pyautogui.screenshot(region=region)
             pyautogui.click()
             self.selected_screenshot = pyautogui.screenshot(region=region)
 
             for second in reversed(range(4)):
-                self.screenshot_label.config(text='Place mouse at the top left\nof the entire game window %s' % second)
+                self.screenshot_label.config(
+                    text='Place mouse at the top left\nof the entire game window %s' % second)
                 if second != 0:
                     time.sleep(1)
             top_left = pyautogui.position()
             for second in reversed(range(4)):
-                self.screenshot_label.config(text='Place mouse at the bottom right\nof the entire game window %s' % second)
+                self.screenshot_label.config(
+                    text='Place mouse at the bottom right\nof the entire game window %s' % second)
                 if second != 0:
                     time.sleep(1)
             bottom_right = pyautogui.position()
@@ -178,5 +188,6 @@ class GUI(tk.Tk):
 
             self.screenshot_taken = True
             self.screenshot_label.config(text='Screenshot Taken')
-            self.screenshot_button.config(state='normal', text='Retake Screenshot')
+            self.screenshot_button.config(
+                state='normal', text='Retake Screenshot')
         threading.Thread(target=func).start()
