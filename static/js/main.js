@@ -34,7 +34,7 @@ function fillNES() {
             user_input: "B"
         });
     });
-    $("#D_pad").click(function() {
+    $("#D_pad").click(function(e) {
         var offset = $(this).offset();
         var dx = (e.pageX - offset.left);
         var dy = (e.pageY - offset.top);
