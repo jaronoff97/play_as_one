@@ -69,6 +69,16 @@ function fillSNES() {
     var y_button = $('<img id="Y_button" class="Y" src="/static/images/Y_button.png"/>');
     $("#XY_layout").append(x_button);
     $("#XY_layout").append(y_button);
+    $("#X_button").click(function() {
+        socket.emit("sendInput", {
+            user_input: "X"
+        });
+    });
+    $("#Y_button").click(function() {
+        socket.emit("sendInput", {
+            user_input: "Y"
+        });
+    });
 }
 function fillKeyboard(){
     $("#container").removeClass('hidden');
