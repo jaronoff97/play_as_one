@@ -37,11 +37,23 @@ function fillNES() {
     });
     $("#D_pad").click(function(e) {
         var offset = $(this).offset();
-        var dx = (e.pageX - offset.left);
-        var dy = (e.pageY - offset.top);
-        alert(dx+" "+dy);
+        var width = $(this).width();
+        var height = $(this).height();
+        var relativeX = (e.pageX - offset.left);
+        var relativeY = -1 * (e.pageY - offset.top);
+        command="";
+        if (relativeX < width / 2) {
+            command="A";
+        } else {
+            command="D";
+        }
+        if (relativeY < height / 2) {
+            command="S";
+        } else {
+            command="W";
+        }
         socket.emit("sendInput", {
-            user_input: "X"
+            user_input: command
         });
     });
 }
