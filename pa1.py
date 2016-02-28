@@ -5,11 +5,11 @@ app = Flask(__name__)
 from flask_socketio import SocketIO, emit
 from json import loads, dumps
 
-socketio = SocketIO(app, async_mode='threading')
+socketio = SocketIO(app)
 mode = get_mode()
 user_count = 0
 users = {}
-democracy = {}
+democracy = []
 
 
 @app.route("/")
@@ -50,21 +50,29 @@ def handle_disconnect(json):
 
 @socketio.on("sendInput")
 def handle_input(json):
-    input = loads(json)
+    user_input = loads(json)
     users[input['username']]['input_count'] += 1
     if (mode == 'chaos'):
-        handle_chaos(input)
+        handle_chaos(user_input)
     elif (mode == 'democracy'):
-        handle_democracy(input)
+        handle_democracy(user_input)
 
 
-def handle_chaos(input):
-    execute_input(input)
+def handle_chaos(user_input):
+    execute_input(user_input)
 
 
-def handle_democracy(input):
+def handle_democracy(user_input):
     global democracy
-    try:
-        democracy[input['input']] +=1
-    except KeyError:
-        democracy[input['input']] = 0
+    for demo_input in democracy:
+        if demo_input[0] == user_input['input']:
+            demo_input[1] +=1
+            break
+    democracy.append((user_input['input'], 1))
+
+def execute_democracy():
+    most_votes = ""
+    most_count = 0
+    for input in democracy:
+        if input > most_count:
+            most_votes = input
