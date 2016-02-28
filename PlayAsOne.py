@@ -57,7 +57,7 @@ class PlayAsOne:
             position = pyautogui.locateOnScreen(self.gui.deselected_screenshot)
         if not position:
             return False
-        self.send_mouse_click(*pyautogui.center(position), button='left')
+        pyautogui.click(*pyautogui.center(position), button='left')
         return (
             position[0] - self.gui.screen_size[0],
             position[1] - self.gui.screen_size[1],
@@ -73,6 +73,14 @@ class PlayAsOne:
     def send_mouse_click(self, x, y, button):
         if not self.running:
             return
+        if x < self.window_region[0]:
+            return
+        if y < self.window_region[1]:
+            return
+        if x > self.window_region[2]:
+            return
+        if y > self.window_region[2]:
+            return
         pyautogui.click(x=x, y=y, button=button)
 
 
@@ -81,22 +89,21 @@ class GUI(tk.Tk):
         tk.Tk.__init__(self)
         self.server = server
 
-        self.mode_frame = tk.Frame()
-        self.mode_frame.grid(row=0, column=0, sticky='w')
+        self.mode_frame = tk.Frame(self)
+        self.mode_frame.grid(row=0, column=0, columnspan=2)
+
         self.mode_label = tk.Label(self.mode_frame, text='Mode: ')
-        self.mode_label.grid(row=0, column=0)
+        self.mode_label.grid(row=0, column=0, sticky='w')
         self.mode_combobox = ttk.Combobox(self.mode_frame, state='readonly', width=9, values=('Chaos', 'Democracy'))
         self.mode_combobox.set('Chaos')
-        self.mode_combobox.grid(row=0, column=1)
+        self.mode_combobox.grid(row=0, column=1, sticky='ew')
 
-        self.input_mode_frame = tk.Frame(self)
-        self.input_mode_frame.grid(row=1, column=0, sticky='w')
-        self.input_mode_label = tk.Label(self.input_mode_frame, text='Input Mode: ')
-        self.input_mode_label.grid(row=0, column=0)
+        self.input_mode_label = tk.Label(self.mode_frame, text='Input Mode: ')
+        self.input_mode_label.grid(row=1, column=0, sticky='w')
         self.input_mode_combobox = ttk.Combobox(
-            self.input_mode_frame, state='readonly', width=13, values=('NES', 'SNES', 'Full Keyboard'))
+            self.mode_frame, state='readonly', width=13, values=('NES', 'SNES', 'Full Keyboard'))
         self.input_mode_combobox.set('Full Keyboard')
-        self.input_mode_combobox.grid(row=0, column=1)
+        self.input_mode_combobox.grid(row=1, column=1, sticky='ew')
 
         self.deselected_screenshot = None
         self.selected_screenshot = None
@@ -107,15 +114,10 @@ class GUI(tk.Tk):
         self.screenshot_button.grid(row=2, column=1)
 
         self.status_label = tk.Label(self, text='Not Running')
-        self.status_label.grid(row=3, column=0)
+        self.status_label.grid(row=3, column=0, columnspan=2)
 
         self.start_button = ttk.Button(self, text='Start', command=self.start)
         self.start_button.grid(row=4, column=0, columnspan=2)
-
-        def s():
-            print(self.server.find_game_window())
-        self.k = ttk.Button(self, text='K', command=s)
-        self.k.grid(row=5, column=0)
 
     def start(self):
         if self.deselected_screenshot is None:
