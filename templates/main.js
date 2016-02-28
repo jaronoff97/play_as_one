@@ -33,6 +33,6 @@ socket.on('initialize', function(data) {
     }
 });
 window.beforeunload = function() {
-    socket.emit("disconnect", username);
+    if (username != null) socket.emit("disconnect", username);
 }
 main();
