@@ -8,6 +8,7 @@ function main() {
     // create, initiate and append game canvas
     username = window.prompt("Enter a username", "Username");
     init(); // initiate game objects
+    $("#container").hidden=True;
     //$(document).keydown(keyDown); //add keylisteners
     //$(document).keyup(keyUp);
     //draw();
@@ -68,6 +69,9 @@ function fillSNES() {
     var y_button = $('<img id="Y_button" src="/static/images/Y_button.png"/>');
     $("#button_layout").append(x_button);
     $("#button_layout").append(y_button);
+}
+function fillKeyboard(){
+
 }
 socket.on('initialize', function(data) {
     console.log(data);
