@@ -19,9 +19,9 @@ function init() {
 }
 
 function fillNES() {
-    var a_button = $('<img id="A_button" src="/static/images/A_button.png"/>');
-    var b_button = $('<img id="B_button" src="/static/images/B_button.png"/>');
-    var d_pad = $('<img id="D_pad" src="/static/images/D_pad.png"/>');
+    var a_button = $('<img id="A_button" class="A" src="/static/images/A_button.png"/>');
+    var b_button = $('<img id="B_button" class = "B" src="/static/images/B_button.png"/>');
+    var d_pad = $('<img id="D_pad" class = "DPad" src="/static/images/D_pad.png"/>');
     console.log("here");
     $("#button_layout").append(a_button);
     $("#button_layout").append(b_button);
@@ -65,8 +65,8 @@ function fillNES() {
 
 function fillSNES() {
     fillNES();
-    var x_button = $('<img id="X_button" src="/static/images/X_button.png"/>');
-    var y_button = $('<img id="Y_button" src="/static/images/Y_button.png"/>');
+    var x_button = $('<img id="X_button" class="X"  src="/static/images/X_button.png"/>');
+    var y_button = $('<img id="Y_button" class="Y" src="/static/images/Y_button.png"/>');
     $("#button_layout").append(x_button);
     $("#button_layout").append(y_button);
 }
