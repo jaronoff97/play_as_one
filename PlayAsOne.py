@@ -2,13 +2,17 @@
 
 import pyautogui
 import Tkinter as tk
-import threading
-import time
 import ttk
 from flask import Flask, request, flash, url_for, redirect, \
     render_template, abort, send_from_directory, jsonify
 from flask.ext.socketio import SocketIO, emit
 from json import loads, dumps
+import threading
+import sys
+if sys.platform == 'win32':
+    import win32gui
+if sys.platform == 'darwin':
+    pass
 
 class PlayAsOne:
 
@@ -16,19 +20,23 @@ class PlayAsOne:
         self.gui = GUI(self)
 
         self.running = False
-        self.window_active = False
-        self.window_region = None
 
         threading.Thread(target=socketio.run, args=(app,)).start()
         self.gui.mainloop()
 
     def start(self):
+        if not self.find_game_window():
+            self.gui.status_label.config(text='Could not locate the window!')
+
         self.running = True
+        self.gui.start_button.config(text='Stop', command=self.stop)
         self.gui.status_label.config(text='Running')
-        threading.Thread(target=self.monitor_game_window).start()
+        self.gui.titlebar_entry.config(state='disabled')
 
     def stop(self):
+        self.gui.start_button.config(text='Start', command=self.start)
         self.gui.status_label.config(text='Not Running')
+        self.gui.titlebar_entry.config(state='normal')
         self.running = False
 
     def is_running(self):
@@ -40,51 +48,48 @@ class PlayAsOne:
     def get_input_mode(self):
         return self.gui.input_mode_combobox.get()
 
-    def monitor_game_window(self):
-        while self.running:
-            region = self.find_game_window()
-            if not region:
-                self.gui.stop()
-                self.window_active = False
-                self.window_region = None
-                self.gui.status_label.config(text='Lost the game window!')
-                break
-            self.window_active = True
-            self.window_region = region
-
-            print(self.window_region)
-
-            time.sleep(1)
-
     def find_game_window(self):
-        position = pyautogui.locateOnScreen(self.gui.selected_screenshot)
-        if not position:
-            position = pyautogui.locateOnScreen(self.gui.deselected_screenshot)
-        if not position:
-            return False
-        pyautogui.click(*pyautogui.center(position), button='left')
-        return (
-            position[0] - self.gui.screen_size[0],
-            position[1] - self.gui.screen_size[1],
-            position[0] + position[2] + self.gui.screen_size[2],
-            position[1] + position[3] + self.gui.screen_size[3]
-        )
+        if sys.platform == 'win32':
+            toplist, winlist = [], []
+
+            def enum_cb(hwnd, results):
+                winlist.append((hwnd, win32gui.GetWindowText(hwnd)))
+            win32gui.EnumWindows(enum_cb, toplist)
+
+            window = [(hwnd, title) for hwnd, title in winlist if self.gui.titlebar_entry.get().lower() in title.lower()]
+            if not window:
+                return False
+            window = window[0]
+            hwnd = window[0]
+
+            win32gui.SetForegroundWindow(hwnd)
+            region = win32gui.GetWindowRect(hwnd)
+            region = (
+                region[0],
+                region[1],
+                region[2]-region[0],
+                region[3]-region[1]
+            )
+            return region
+        return False
 
     def send_key(self, key):
         if not self.running:
             return
+        self.find_game_window()
         pyautogui.press(key)
 
     def send_mouse_click(self, x, y, button):
         if not self.running:
             return
-        if x < self.window_region[0]:
+        window_region = self.find_game_window()
+        if x < window_region[0]:
             return
-        if y < self.window_region[1]:
+        if y < window_region[1]:
             return
-        if x > self.window_region[2]:
+        if x > window_region[2]:
             return
-        if y > self.window_region[2]:
+        if y > window_region[2]:
             return
         pyautogui.click(x=x, y=y, button=button)
 
@@ -112,20 +117,15 @@ class GUI(tk.Tk):
         self.input_mode_combobox.set('Full Keyboard')
         self.input_mode_combobox.grid(row=1, column=1, sticky='ew')
 
-        self.deselected_screenshot = None
-        self.selected_screenshot = None
-        self.screen_size = None
-        self.screenshot_label = tk.Label(
-            self, text='Screenshot Not Taken', font=('Helvetica', 15))
-        self.screenshot_label.grid(row=2, column=0)
-        self.screenshot_button = ttk.Button(
-            self, text='Take Screenshot', command=self.take_screenshot)
-        self.screenshot_button.grid(row=2, column=1)
+        self.titlebar_label = tk.Label(self.mode_frame, text='Title Bar Name: ')
+        self.titlebar_label.grid(row=2, column=0, sticky='w')
+        self.titlebar_entry = ttk.Entry(self.mode_frame)
+        self.titlebar_entry.grid(row=2, column=1, sticky='ew')
 
         self.status_label = tk.Label(self, text='Not Running')
         self.status_label.grid(row=3, column=0, columnspan=2)
 
-        self.start_button = ttk.Button(self, text='Start', command=self.start)
+        self.start_button = ttk.Button(self, text='Start', command=self.server.start)
         self.start_button.grid(row=4, column=0, columnspan=2)
 
     def start(self):
