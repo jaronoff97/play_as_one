@@ -50,10 +50,11 @@ function fillNES() {
         if (forceX<0 && (-1*forceX)>forceY) {
             command = "D";
         }
-        if (relativeY < height / 2) {
+        if(forceY<0 && (-1*forceY)>forceX){
             command = "S";
-        } else {
-            command = "W";
+        }
+        if(forceY>0 && forceY>forceX){
+            command="W";
         }
         console.log([offset,
             {"width":width},
