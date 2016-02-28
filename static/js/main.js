@@ -44,16 +44,16 @@ function fillNES() {
         var forceX = ((width/2)-relativeX);
         var forceY = ((height/2)-relativeY);
         var command = "";
-        if (forceX>0 && forceX>forceY) {
+        if (forceX>0 && Math.abs(forceX)>Math.abs(forceY)) {
             command = "A";
         }
-        if (forceX<0 && (-1*forceX)>forceY) {
+        if (forceX<0 && (Math.abs(forceX))Math.abs(>forceY)) {
             command = "D";
         }
-        if(forceY<0 && (-1*forceY)>forceX){
+        if(forceY<0 && (Math.abs(forceY))>Math.abs(forceX)){
             command = "S";
         }
-        if(forceY>0 && forceY>forceX){
+        if(forceY>0 && fMath.abs(orceY)>fMath.abs(orceX)){
             command="W";
         }
         console.log([offset,
