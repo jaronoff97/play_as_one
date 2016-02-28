@@ -45,16 +45,16 @@ function fillNES() {
         var forceY = ((height/2)-relativeY);
         var command = "";
         if (forceX>0 && Math.abs(forceX)>Math.abs(forceY)) {
-            command = "A";
+            command = "left";
         }
         if (forceX<0 && (Math.abs(forceX))>Math.abs(forceY)) {
-            command = "D";
+            command = "right";
         }
         if(forceY<0 && (Math.abs(forceY))>Math.abs(forceX)){
-            command = "S";
+            command = "down";
         }
         if(forceY>0 && Math.abs(forceY)>Math.abs(forceX)){
-            command="W";
+            command="up";
         }
         console.log([offset,
             {"width":width},
