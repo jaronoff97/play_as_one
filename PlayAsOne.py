@@ -259,18 +259,21 @@ def handle_chaos(user_input):
 def handle_democracy(user_input):
     global democracy
     for demo_input in democracy:
-        if demo_input[0] == user_input['input']:
+        if demo_input[0] == user_input:
+            print(demo_input)
             demo_input[1] += 1
             break
-    democracy.append((user_input['input'], 1))
+    democracy.append((user_input, 1))
 
 
 def execute_democracy():
+    global democracy
     most_votes = ("", 0)
     for user_input in democracy:
         if user_input[1] > most_votes[1]:
             most_votes = user_input
     gui_server.send_key(most_votes[0])
+    democracy = []
 
 
 @socketio.on('on disconnect', namespace="/")
