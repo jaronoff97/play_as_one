@@ -29,7 +29,7 @@ class PlayAsOne:
         self.gui.start_button.config(text='Stop', command=self.stop)
         self.gui.status_label.config(text='Running')
         self.gui.titlebar_entry.config(state='disabled')
-        threading.Thread(target=socketio.run, args=(app,), kwargs={'host': '18.111.91.19', 'port':3000}).start()
+        threading.Thread(target=socketio.run, args=(app,), kwargs={'host': '18.111.92.199', 'port':3000}).start()
 
     def stop(self):
         self.gui.start_button.config(text='Start', command=self.start)
@@ -77,7 +77,7 @@ class PlayAsOne:
         if not self.running:
             return
         self.find_game_window()
-        pyautogui.press(key)
+        pyautogui.press(str(key))
 
     def send_mouse_click(self, x, y, button):
         if not self.running:
