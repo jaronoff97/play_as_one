@@ -32,6 +32,6 @@ socket.on('initialize', function(data) {
     }
 });
 window.beforeunload = function() {
-    socket.emit("disconnect", {});
+    socket.emit("disconnect", username);
 }
 main();
