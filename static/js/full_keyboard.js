@@ -1,4 +1,5 @@
-var $write = $('#write'),
+$(function(){
+    var $write = $('#write'),
         shift = false,
         capslock = false;
 
@@ -47,8 +48,8 @@ var $write = $('#write'),
 
             shift = false;
         }
-        socket.emit("sendInput",{user_input: character});
-        console.log(character);
+
         // Add the character
         $write.html($write.html() + character);
     });
+});
