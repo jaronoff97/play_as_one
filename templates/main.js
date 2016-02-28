@@ -22,7 +22,7 @@ socket.on('initialize', function(data){
 
             break;
         }
-        case ():{
+        case ('wasd'):{
 
             break;
         }
