@@ -25,6 +25,11 @@ function fillNES(){
     $("#button_layout").append(d_pad);
 }
 function fillSNES(){
+    fillNES();
+    var x_button= $('<input class="X_button" type="button" value="new button"/>');
+    var y_button= $('<input class="Y_button" type="button" value="new button"/>');
+    $("#button_layout").append(x_button);
+    $("#button_layout").append(y_button);
 
 }
 socket.on('initialize', function(data) {
