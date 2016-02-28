@@ -1,4 +1,4 @@
-var socket = io();
+var socket = io.connect('http://' + document.domain + ':' + location.port);
 var gamemode = null,
     input_type = null;
 var username = null
