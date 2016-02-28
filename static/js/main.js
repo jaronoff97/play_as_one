@@ -25,13 +25,22 @@ function fillNES() {
     $("#button_layout").append(b_button);
     $("#button_layout").append(d_pad);
     $("#A_button").click(function() {
-        socket.emit("sendInput", { user_input: "A" });
+        socket.emit("sendInput", {
+            user_input: "A"
+        });
     });
     $("#B_button").click(function() {
-        socket.emit("sendInput", { user_input: "B" });
+        socket.emit("sendInput", {
+            user_input: "B"
+        });
     });
     $("#D_pad").click(function() {
-        socket.emit("sendInput", { user_input: "X" });
+        var offset = $(this).offset();
+        var dx = (e.pageX - offset.left);
+        var dy = (e.pageY - offset.top);
+        socket.emit("sendInput", {
+            user_input: "X"
+        });
     });
 }
 
@@ -41,7 +50,6 @@ function fillSNES() {
     var y_button = $('<img id="Y_button" src="/static/images/Y_button.png"/>');
     $("#button_layout").append(x_button);
     $("#button_layout").append(y_button);
-
 }
 socket.on('initialize', function(data) {
     console.log(data);
