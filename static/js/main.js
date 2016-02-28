@@ -53,10 +53,10 @@ function fillNES() {
             command = "W";
         }
         console.log([offset,
-            width,
-            height,
-            relativeX,
-            relativeY
+            {"width":width},
+            {"height":height},
+            {"relativeX":relativeX},
+            {"relativeY":relativeY}
         ]);
         console.log(command);
         socket.emit("sendInput", {
