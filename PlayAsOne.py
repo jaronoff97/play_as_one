@@ -95,6 +95,14 @@ class PlayAsOne:
         if not self.running:
             return
         self.find_game_window()
+
+        try:
+            wrapdict = eval(self.gui.wrap_entry.get())
+            if key in wrapdict:
+                key = wrapdict[key]
+        except ValueError:
+            pass
+
         pyautogui.press(str(key))
 
     def send_mouse_click(self, x, y, button):
@@ -144,6 +152,11 @@ class GUI(tk.Tk):
         self.interval_label.grid(row=3, column=0, sticky='w')
         self.interval_entry = ttk.Entry(self.mode_frame)
         self.interval_entry.grid(row=3, column=1, sticky='ew')
+
+        self.wrap_label = tk.Label(self.mode_frame, text='Wrap Keys: ')
+        self.wrap_label.grid(row=4, column=0, sticky='w')
+        self.wrap_entry = ttk.Entry(self.mode_frame)
+        self.wrap_entry.grid(row=4, column=1, sticky='ew')
 
         self.status_label = tk.Label(self, text='Not Running')
         self.status_label.grid(row=3, column=0, columnspan=2)
