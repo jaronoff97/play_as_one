@@ -109,11 +109,13 @@ body {
 .A {
     position:absolute;
     left:30%;
+    top:0%;
 
 
 }
 .B{
     position:absolute;
+    top:0%;
     left:35%;
 
 
@@ -130,6 +132,6 @@ body {
 }
 .Y{
     position: absolute;
-    left:35%
+    left:35%;
     top : 20%;
 }
