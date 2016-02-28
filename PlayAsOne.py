@@ -61,7 +61,11 @@ class PlayAsOne:
         return self.gui.input_mode_combobox.get()
 
     def get_democracy_interval(self):
-        return int(self.gui.interval_entry.get())
+        try:
+            return_code = int(self.gui.interval_entry.get())
+            return return_code
+        except ValueError:
+            return 0
 
     def find_game_window(self):
         if sys.platform == 'win32':
@@ -98,8 +102,8 @@ class PlayAsOne:
 
         try:
             wrapdict = eval(self.gui.wrap_entry.get())
-            if key in wrapdict:
-                key = wrapdict[key]
+            if key.lower() in wrapdict:
+                key = wrapdict[key.lower()]
         except ValueError:
             pass
 
