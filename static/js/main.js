@@ -76,7 +76,7 @@ function fillSNES() {
     });
     $("#Y_button").click(function() {
         socket.emit("sendInput", {
-            user_input: "Y"
+            user_input: "Y  "
         });
     });
 }
