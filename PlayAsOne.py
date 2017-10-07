@@ -34,7 +34,8 @@ class PlayAsOne:
         self.gui.input_mode_combobox.config(state='disabled')
         self.gui.interval_entry.config(state='disabled')
 
-        threading.Thread(target=socketio.run, args=(app,), kwargs={'host': '18.111.92.199', 'port':3000}).start()
+        threading.Thread(target=socketio.run, args=(app,), 
+                         kwargs={'host': '18.111.92.199', 'port':3000}).start()
         threading.Thread(target=self.regulate_democracy).start()
 
     def stop(self):
